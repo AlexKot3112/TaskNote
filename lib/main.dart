@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_notes/screens/alert_dialog.dart';
 import 'package:task_notes/screens/main_screen.dart';
 
 void main() {
@@ -19,7 +18,7 @@ class TaskApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MainScreenWidget(),
-        '/alert': (context) => const AlertDialogWidget(),
+        
       },
     );
   }

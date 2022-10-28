@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:task_notes/screens/new_task_alert_dialog.dart';
 import 'package:task_notes/widgets/task_card.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -9,10 +11,14 @@ class MainScreenWidget extends StatefulWidget {
 }
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
+  final TextEditingController nameController = TextEditingController();
+
+  final TextEditingController descriptionController = TextEditingController();
   List tasksList = [
+    // [task name[0], task descroption[1], taskComplited[2]]
     [
-      'Make flutter App',
-      'short description aboutefvih;fj v vuiyttctctctctctctctctctctctctvhgcdxeliyrlbvzjh .fv;abvzliur process coding',
+      'Make fluta[oruhbva;fhvbIJ:V pbrUIVb:fiuvb"FJIbv[O Jbuoarhnblkzdf biuzter App',
+      'short description aboutefvih;fj v vuiyttctctct aoifv[O"Ifn [nnv;FUIVb:Jc aiunv KJv[9a rhmg[9er8hg [a9ergm g9 r[g98cqmg[98qh[9g a[9g8ah[ervap987reg a[98h [a9 ctctctctctctctctctvhgcdxeliyrlbvzjh .fv;abvzliur process coding',
       true,
     ],
     [
@@ -33,8 +39,39 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
+  void onSave() {
+    setState(() {
+      tasksList.add([
+        nameController.text.toString(),
+        descriptionController.text.toString(),
+        false
+      ]);
+    });
+    nameController.clear();
+    descriptionController.clear();
+    Navigator.of(context).pop();
+  }
+
+  void onDelete(int index) {
+    setState(() {
+      tasksList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    void createNewTask() {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialogWidget(
+              onSave: onSave,
+              nameController: nameController,
+              descriptionController: descriptionController,
+            );
+          });
+    }
+
     const title = 'Tasks List';
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 196, 201, 230),
@@ -44,7 +81,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed('/alert');
+          createNewTask();
         },
         backgroundColor: Colors.indigo,
         child: const Icon(Icons.add),
@@ -53,11 +90,23 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       body: ListView.builder(
         itemCount: tasksList.length,
         itemBuilder: ((context, index) {
-          return TaskCardWidget(
-            title: tasksList[index][0],
-            description: tasksList[index][1],
-            taskComplited: tasksList[index][2],
-            onChanged: (value) => checkBoxChanged(value, index),
+          return Slidable(
+            endActionPane: ActionPane(
+              motion: const StretchMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) => onDelete(index),
+                  icon: Icons.delete,
+                  backgroundColor: const Color.fromARGB(255, 196, 201, 230),
+                )
+              ],
+            ),
+            child: TaskCardWidget(
+              title: tasksList[index][0],
+              description: tasksList[index][1],
+              taskComplited: tasksList[index][2],
+              onChanged: (value) => checkBoxChanged(value, index),
+            ),
           );
         }),
       ),
