@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:task_notes/data/database.dart';
 import 'package:task_notes/screens/new_task_alert_dialog.dart';
 import 'package:task_notes/widgets/task_card.dart';
 import 'package:task_notes/styles/colors.dart';
@@ -12,42 +14,40 @@ class MainScreenWidget extends StatefulWidget {
 }
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
+  final tasksBox = Hive.box('tasksBox');
   final TextEditingController nameController = TextEditingController();
 
   final TextEditingController descriptionController = TextEditingController();
-  List tasksList = [
-    // [task name[0], task descroption[1], taskComplited[2]]
-    [
-      'Make fluta[oruhbva;fhvbIJ:V pbrUIVb:fiuvb"FJIbv[O Jbuoarhnblkzdf biuzter App',
-      'short description aboutefvih;fj v vuiyttctctct aoifv[O"Ifn [nnv;FUIVb:Jc aiunv KJv[9a rhmg[9er8hg [a9ergm g9 r[g98cqmg[98qh[9g a[9g8ah[ervap987reg a[98h [a9 ctctctctctctctctctvhgcdxeliyrlbvzjh .fv;abvzliur process coding',
-      true,
-    ],
-    [
-      'Make flutter App',
-      'short description about UI design',
-      false,
-    ],
-    [
-      'Make flutter App',
-      'short description about app fitures',
-      true,
-    ],
-  ];
+
+  TasksDataBase db = TasksDataBase();
+
+  @override
+  void initState() {
+    if (tasksBox.get('TASKSLIST') == null) {
+      db.createInitData();
+    } else {
+      db.loadDataFromDatabase();
+    }
+
+    super.initState();
+  }
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      tasksList[index][2] = !tasksList[index][2];
+      db.tasksList[index][2] = !db.tasksList[index][2];
     });
+    db.updateDataBase();
   }
 
   void onSave() {
     setState(() {
-      tasksList.add([
+      db.tasksList.add([
         nameController.text.toString(),
         descriptionController.text.toString(),
         false
       ]);
     });
+    db.updateDataBase();
     nameController.clear();
     descriptionController.clear();
     Navigator.of(context).pop();
@@ -55,8 +55,9 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
   void onDelete(int index) {
     setState(() {
-      tasksList.removeAt(index);
+      db.tasksList.removeAt(index);
     });
+    db.updateDataBase();
   }
 
   void onCancel() {
@@ -96,7 +97,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView.builder(
-        itemCount: tasksList.length,
+        itemCount: db.tasksList.length,
         itemBuilder: ((context, index) {
           return Slidable(
             endActionPane: ActionPane(
@@ -110,9 +111,9 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
               ],
             ),
             child: TaskCardWidget(
-              title: tasksList[index][0],
-              description: tasksList[index][1],
-              taskComplited: tasksList[index][2],
+              title: db.tasksList[index][0],
+              description: db.tasksList[index][1],
+              taskComplited: db.tasksList[index][2],
               onChanged: (value) => checkBoxChanged(value, index),
             ),
           );
