@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_notes/screens/new_task_alert_dialog.dart';
 import 'package:task_notes/widgets/task_card.dart';
+import 'package:task_notes/styles/colors.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({super.key});
@@ -58,6 +59,12 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
+  void onCancel() {
+    nameController.clear();
+    descriptionController.clear();
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     void createNewTask() {
@@ -66,6 +73,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           builder: (context) {
             return AlertDialogWidget(
               onSave: onSave,
+              onCancel: onCancel,
               nameController: nameController,
               descriptionController: descriptionController,
             );
@@ -74,7 +82,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
     const title = 'Tasks List';
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 196, 201, 230),
+      backgroundColor: AppColors.bgColor,
       appBar: AppBar(
         title: const Text(title),
         centerTitle: true,
@@ -83,7 +91,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         onPressed: () {
           createNewTask();
         },
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.appBarColor,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

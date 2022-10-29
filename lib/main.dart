@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_notes/screens/main_screen.dart';
-
+import 'package:task_notes/styles/colors.dart';
 void main() {
   runApp(const TaskApp());
 }
@@ -13,7 +13,7 @@ class TaskApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: AppColors.appBarColor,
       ),
       initialRoute: '/',
       routes: {

@@ -1,11 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:flutter/material.dart';
-
+import 'package:task_notes/styles/colors.dart';
 import 'package:task_notes/widgets/description_textfield.dart';
 import 'package:task_notes/widgets/name_textfield.dart';
 
 class AlertDialogWidget extends StatelessWidget {
   VoidCallback onSave;
+  VoidCallback onCancel;
 
   final TextEditingController nameController;
 
@@ -13,6 +14,7 @@ class AlertDialogWidget extends StatelessWidget {
   AlertDialogWidget({
     Key? key,
     required this.onSave,
+    required this.onCancel,
     required this.nameController,
     required this.descriptionController,
   }) : super(key: key);
@@ -20,7 +22,7 @@ class AlertDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color.fromARGB(255, 196, 201, 230),
+      backgroundColor: AppColors.bgColor,
       title: const Center(child: Text('Add New Task')),
       actions: [
         TaskNameTextfieldWidget(
@@ -39,9 +41,7 @@ class AlertDialogWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: onCancel,
               child: const Text('Cancel'),
             ),
             TextButton(

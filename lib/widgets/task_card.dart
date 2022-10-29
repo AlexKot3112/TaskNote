@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:task_notes/styles/colors.dart';
 
 class TaskCardWidget extends StatelessWidget {
   final String title;
@@ -21,7 +22,7 @@ class TaskCardWidget extends StatelessWidget {
       padding: const EdgeInsets.only(top: 14, left: 14, right: 14),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.indigoAccent,
+            color: AppColors.cardBgColor,
             borderRadius: BorderRadius.circular(12)),
         child: ListTile(
           title: Text(
