@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:task_notes/data/database.dart';
+import 'package:task_notes/costants/count_constants.dart';
+import 'package:task_notes/costants/text_constants.dart';
+import 'package:task_notes/data/data_base.dart';
 import 'package:task_notes/screens/new_task_alert_dialog.dart';
 import 'package:task_notes/widgets/task_card.dart';
 import 'package:task_notes/styles/colors.dart';
@@ -24,7 +26,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   @override
   void initState() {
     if (tasksBox.get('TASKSLIST') == null) {
-      db.createInitData();
+      db.firstTimeInitData();
     } else {
       db.loadDataFromDatabase();
     }
@@ -32,9 +34,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     super.initState();
   }
 
-  void checkBoxChanged(bool? value, int index) {
+  void checkBoxChanged(int cardIndex) {
     setState(() {
-      db.tasksList[index][2] = !db.tasksList[index][2];
+      db.tasksList[cardIndex][IndexInDataBaseRow.isComplited] =
+          !db.tasksList[cardIndex][IndexInDataBaseRow.isComplited];
     });
     db.updateDataBase();
   }
@@ -53,9 +56,9 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     Navigator.of(context).pop();
   }
 
-  void onDelete(int index) {
+  void onDelete(int cardIndex) {
     setState(() {
-      db.tasksList.removeAt(index);
+      db.tasksList.removeAt(cardIndex);
     });
     db.updateDataBase();
   }
@@ -66,26 +69,26 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     Navigator.of(context).pop();
   }
 
+  void createNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialogWidget(
+          onSave: onSave,
+          onCancel: onCancel,
+          nameController: nameController,
+          descriptionController: descriptionController,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    void createNewTask() {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialogWidget(
-              onSave: onSave,
-              onCancel: onCancel,
-              nameController: nameController,
-              descriptionController: descriptionController,
-            );
-          });
-    }
-
-    const title = 'Tasks List';
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
-        title: const Text(title),
+        title: const Text(TextConstants.title),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
@@ -98,23 +101,25 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView.builder(
         itemCount: db.tasksList.length,
-        itemBuilder: ((context, index) {
+        itemBuilder: ((context, cardIndex) {
           return Slidable(
             endActionPane: ActionPane(
               motion: const StretchMotion(),
               children: [
                 SlidableAction(
-                  onPressed: (context) => onDelete(index),
+                  onPressed: (context) => onDelete(cardIndex),
                   icon: Icons.delete,
-                  backgroundColor: const Color.fromARGB(255, 196, 201, 230),
+                  backgroundColor: AppColors.bgColor,
                 )
               ],
             ),
             child: TaskCardWidget(
-              title: db.tasksList[index][0],
-              description: db.tasksList[index][1],
-              taskComplited: db.tasksList[index][2],
-              onChanged: (value) => checkBoxChanged(value, index),
+              title: db.tasksList[cardIndex][IndexInDataBaseRow.taskName],
+              description: db.tasksList[cardIndex]
+                  [IndexInDataBaseRow.taskDescroption],
+              taskComplited: db.tasksList[cardIndex]
+                  [IndexInDataBaseRow.isComplited],
+              onChanged: (value) => checkBoxChanged(cardIndex),
             ),
           );
         }),

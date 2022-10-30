@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_notes/costants/text_constants.dart';
 
 class TaskNameTextfieldWidget extends StatelessWidget {
   final TextEditingController nameController;
@@ -16,7 +17,7 @@ class TaskNameTextfieldWidget extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        labelText: 'New task name',
+        labelText: TextConstants.name,
       ),
       autofocus: true,
     );

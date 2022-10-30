@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:task_notes/costants/text_constants.dart';
 import 'package:task_notes/styles/colors.dart';
-import 'package:task_notes/widgets/description_textfield.dart';
-import 'package:task_notes/widgets/name_textfield.dart';
+import 'package:task_notes/widgets/button_widget.dart';
+import 'package:task_notes/widgets/description_text_field.dart';
+import 'package:task_notes/widgets/name_text_field.dart';
 
 class AlertDialogWidget extends StatelessWidget {
   VoidCallback onSave;
@@ -23,7 +25,9 @@ class AlertDialogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: AppColors.bgColor,
-      title: const Center(child: Text('Add New Task')),
+      title: const Center(
+        child: Text(TextConstants.add),
+      ),
       actions: [
         TaskNameTextfieldWidget(
           nameController: nameController,
@@ -40,13 +44,13 @@ class AlertDialogWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            TextButton(
+            ButtonWidget(
               onPressed: onCancel,
-              child: const Text('Cancel'),
+              text: TextConstants.cancel,
             ),
-            TextButton(
+            ButtonWidget(
               onPressed: onSave,
-              child: const Text('Save'),
+              text: TextConstants.save,
             ),
           ],
         ),

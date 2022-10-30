@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_notes/costants/text_constants.dart';
 
 class TaskDescritionTextfieldWidget extends StatelessWidget {
   final TextEditingController descriptionController;
@@ -12,7 +13,7 @@ class TaskDescritionTextfieldWidget extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        labelText: 'New task Description',
+        labelText: TextConstants.description,
       ),
     );
   }

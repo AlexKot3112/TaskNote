@@ -22,8 +22,9 @@ class TaskCardWidget extends StatelessWidget {
       padding: const EdgeInsets.only(top: 14, left: 14, right: 14),
       child: Container(
         decoration: BoxDecoration(
-            color: AppColors.cardBgColor,
-            borderRadius: BorderRadius.circular(12)),
+          color: AppColors.cardBgColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: ListTile(
           title: Text(
             title,

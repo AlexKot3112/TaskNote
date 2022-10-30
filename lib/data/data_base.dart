@@ -5,8 +5,9 @@ class TasksDataBase {
 
   final tasksBox = Hive.box('tasksBox');
 
-  void createInitData() {
+  void firstTimeInitData() {
     tasksList = [
+      //[[0],[1],[2]]
       ['Task name', 'Task description', false]
     ];
   }
