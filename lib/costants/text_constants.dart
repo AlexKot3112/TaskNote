@@ -1,8 +1,6 @@
-class TextConstants {
-  static const title = 'Tasks List';
-  static const add = 'Add New Task';
-  static const cancel = 'Cancel';
-  static const save = 'Save';
-  static const description = 'New task Description';
-  static const name = 'New task name';
-}
+const title = 'Tasks List';
+const add = 'Add New Task';
+const cancel = 'Cancel';
+const save = 'Save';
+const description = 'New task Description';
+const name = 'New task name';

@@ -36,8 +36,8 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
   void checkBoxChanged(int cardIndex) {
     setState(() {
-      db.tasksList[cardIndex][IndexInDataBaseRow.isComplited] =
-          !db.tasksList[cardIndex][IndexInDataBaseRow.isComplited];
+      db.tasksList[cardIndex][isComplited] =
+          !db.tasksList[cardIndex][isComplited];
     });
     db.updateDataBase();
   }
@@ -88,7 +88,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
-        title: const Text(TextConstants.title),
+        title: const Text(title),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
@@ -114,11 +114,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
               ],
             ),
             child: TaskCardWidget(
-              title: db.tasksList[cardIndex][IndexInDataBaseRow.taskName],
+              title: db.tasksList[cardIndex][taskName],
               description: db.tasksList[cardIndex]
-                  [IndexInDataBaseRow.taskDescroption],
+                  [taskDescroption],
               taskComplited: db.tasksList[cardIndex]
-                  [IndexInDataBaseRow.isComplited],
+                  [isComplited],
               onChanged: (value) => checkBoxChanged(cardIndex),
             ),
           );

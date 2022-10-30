@@ -26,7 +26,7 @@ class AlertDialogWidget extends StatelessWidget {
     return AlertDialog(
       backgroundColor: AppColors.bgColor,
       title: const Center(
-        child: Text(TextConstants.add),
+        child: Text(add),
       ),
       actions: [
         TaskNameTextfieldWidget(
@@ -46,11 +46,11 @@ class AlertDialogWidget extends StatelessWidget {
           children: [
             ButtonWidget(
               onPressed: onCancel,
-              text: TextConstants.cancel,
+              text: cancel,
             ),
             ButtonWidget(
               onPressed: onSave,
-              text: TextConstants.save,
+              text: save,
             ),
           ],
         ),

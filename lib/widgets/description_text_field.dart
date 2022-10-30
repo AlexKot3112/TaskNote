@@ -13,7 +13,7 @@ class TaskDescritionTextfieldWidget extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        labelText: TextConstants.description,
+        labelText: description,
       ),
     );
   }

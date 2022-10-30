@@ -17,7 +17,7 @@ class TaskNameTextfieldWidget extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        labelText: TextConstants.name,
+        labelText: name,
       ),
       autofocus: true,
     );
